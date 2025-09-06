@@ -23,13 +23,19 @@ pipeline {
       }
     }
 
-    stage('SonarQube Analysis') {
-      steps {
-        withSonarQubeEnv(SONARQUBE_SERVER) {
-          sh 'mvn sonar:sonar -Dsonar.projectKey=com.studentapp:NumberGuessGame -Dsonar.host.url=http://44.201.108.171:9000 -Dsonar.login=$SONAR_TOKEN'
+    stage('Code Quality - SonarQube') {
+            steps {
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                       mvn clean verify sonar:sonar \
+                      -Dsonar.projectKey=com.studentapp:NumberGuessGame \
+                      -Dsonar.projectName='Number Guessing Game' \
+                      -Dsonar.host.url=http://44.201.108.171:9000 \
+                      -Dsonar.token=sqp_d2780b5c7803d68e7fb3e3aa9ae77d80225bfd6d
+                    '''
+                }
+            }
         }
-      }
-    }
 
     stage('Deploy to Jetty') {
       steps {
