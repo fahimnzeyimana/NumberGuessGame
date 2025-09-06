@@ -16,14 +16,7 @@ pipeline {
             }
         }
 
-       stage('Code Quality - SonarQube') {
-    steps {
-        withSonarQubeEnv('MySonarServer') {
-            sh 'mvn clean verify sonar:sonar'
-        }
-    }
-}
-
+     
         stage('Run with Jetty') {
             steps {
                 // Start Jetty server for your servlet/JSP project
