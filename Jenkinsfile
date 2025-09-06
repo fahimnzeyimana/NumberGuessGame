@@ -20,7 +20,11 @@ pipeline {
         stage('Code Quality - SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube Server') {
-                    sh 'mvn sonar:sonar'
+                    sh 'mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=NumberGuessGame \
+  -Dsonar.projectName='NumberGuessGame' \
+  -Dsonar.host.url=http://44.201.108.171:9000 \
+  -Dsonar.token=sqp_46e321981b770dd99067abbd7827ba0edb657eae'
                 }
             }
         }
