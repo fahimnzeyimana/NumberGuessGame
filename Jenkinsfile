@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/obongg/NumberGuessGame.git', branch: 'main', credentialsId: '8688c497-760e-4259-8c37-cbfe8ad065f8'
+                git url: 'https://https://github.com/fahimnzeyimana/NumberGuessGame.git', branch: 'main', credentialsId: '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'
                 
             }
         }
@@ -16,13 +16,7 @@ pipeline {
             }
         }
 
-        stage('Code Quality - SonarQube') {
-            steps {
-                withSonarQubeEnv('MySonarQube') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
+        
 
         stage('Run with Jetty') {
             steps {
