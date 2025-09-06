@@ -1,16 +1,34 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'
+        jdk 'JDK17'
+    }
+
+    environment {
+        DEPLOY_USER = 'ec2-user'
+        DEPLOY_HOST = 'your-tomcat-ec2-ip'
+        DEPLOY_PATH = '/opt/tomcat/webapps'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/fahimnzeyimana/NumberGuessGame.git', branch: 'main', credentialsId: '8688c497-760e-4259-8c37-cbfe8ad065f8'
+                git url: 'https://github.com/fahimnzeyimana/NumberGuessGame.git', 
+                    branch: 'main', 
+                    credentialsId: '8688c497-760e-4259-8c37-cbfe8ad065f8'
             }
         }
 
         stage('Build & Test') {
             steps {
                 sh 'mvn clean install'
+            }
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
         }
 
@@ -28,11 +46,37 @@ pipeline {
             }
         }
 
-        stage('Run with Jetty') {
+        stage('Publish to Nexus') {
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }
+
+        stage('Deploy to Tomcat') {
+            steps {
+                sshagent(['deploy-ssh-key']) {
+                    sh """
+                        scp -o StrictHostKeyChecking=no target/*.war \
+                          ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/ROOT.war
+
+                        ssh ${DEPLOY_USER}@${DEPLOY_HOST} "/opt/tomcat/bin/shutdown.sh || true"
+                        ssh ${DEPLOY_USER}@${DEPLOY_HOST} "/opt/tomcat/bin/startup.sh"
+                    """
+                }
+            }
+        }
+
+        stage('Run with Jetty (Optional)') {
             steps {
                 sh 'mvn jetty:run &'
                 sh 'sleep 10'
                 echo 'Application deployed on Jetty!'
+            }
+        }
+
+        stage('Smoke Test') {
+            steps {
+                sh 'curl -f http://${DEPLOY_HOST}:8081 || exit 1'
             }
         }
     }
