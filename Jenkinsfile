@@ -1,14 +1,13 @@
 pipeline {
     agent any
 
-        stages {
+    stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/fahimnzeyimana/NumberGuessGame.git', branch: 'main', credentialsId: 'sqp_b860c1c795ac5fd5e6e589e6f379751f29e91ef6'
+                git url: 'https://https://github.com/fahimnzeyimana/NumberGuessGame.git', branch: 'main', credentialsId: '8688c497-760e-4259-8c37-cbfe8ad065f8'
                 
             }
         }
-
 
         stage('Build & Test') {
             steps {
@@ -19,12 +18,8 @@ pipeline {
 
         stage('Code Quality - SonarQube') {
             steps {
-                withSonarQubeEnv('SonarQube Server') {
-                    sh 'mvn clean verify sonar:sonar \
-  -Dsonar.projectKey=NumberGuessGame \
-  -Dsonar.projectName='NumberGuessGame' \
-  -Dsonar.host.url=http://44.201.108.171:9000 \
-  -Dsonar.token=sqp_46e321981b770dd99067abbd7827ba0edb657eae'
+                withSonarQubeEnv('MySonarQube') {
+                    sh 'mvn sonar:sonar'
                 }
             }
         }
