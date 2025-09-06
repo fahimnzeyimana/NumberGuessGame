@@ -16,18 +16,13 @@ pipeline {
             }
         }
 
-        stage('Code Quality - SonarQube') {
-           steps {
-                sh '''
-                     mvn clean verify sonar:sonar \
-                   -Dsonar.projectKey=NumberGuessGame \
-                  -Dsonar.projectName="NumberGuessGame" \
-                  -Dsonar.host.url=http://44.201.108.171:9000 \
-                  -Dsonar.token=${SONAR_TOKEN}
-        '''
+       stage('Code Quality - SonarQube') {
+    steps {
+        withSonarQubeEnv('MySonarServer') {
+            sh 'mvn clean verify sonar:sonar'
+        }
     }
 }
-
 
         stage('Run with Jetty') {
             steps {
