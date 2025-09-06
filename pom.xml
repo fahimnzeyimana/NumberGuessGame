@@ -58,15 +58,17 @@
             </plugin>
     <!-- Jetty Maven Plugin -->
     <plugin>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-maven-plugin</artifactId>
-      <version>11.0.15</version>
-      <configuration>
-        <httpConnector>
-          <port>8081</port>
-        </httpConnector>
-      </configuration>
-    </plugin> 
+  <groupId>org.eclipse.jetty</groupId>
+  <artifactId>jetty-maven-plugin</artifactId>
+  <version>11.0.15</version>
+  <configuration>
+    <httpConnector>
+      <port>8081</port>
+      <host>0.0.0.0</host>
+    </httpConnector>
+  </configuration>
+</plugin>
+
 
             <!-- WAR Plugin -->
             <plugin>
