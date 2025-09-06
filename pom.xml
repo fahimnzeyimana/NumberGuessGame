@@ -12,17 +12,6 @@
     <name>Number Guessing Game</name>
     <url>http://maven.apache.org</url>
 
-    <!-- 🔹 SonarQube Configuration -->
-    <properties>
-        <sonar.projectKey>com.studentapp:NumberGuessGame</sonar.projectKey>
-        <sonar.projectName>Number Guessing Game</sonar.projectName>
-        <sonar.projectVersion>1.0</sonar.projectVersion>
-        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-
-        <!-- Replace with your SonarQube server -->
-        <sonar.host.url>http://44.201.108.171:9000/</sonar.host.url>
-    </properties>
-
     <dependencies>
         <!-- Servlet API -->
         <dependency>
@@ -38,21 +27,21 @@
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
-        </dependency>
+       </dependency>
+       <dependency>
+           <groupId>org.mockito</groupId>
+           <artifactId>mockito-core</artifactId>
+           <version>5.11.0</version>
+           <scope>test</scope>
+       </dependency>
+       <dependency>
+         <groupId>jakarta.servlet</groupId>
+         <artifactId>jakarta.servlet-api</artifactId>
+         <version>5.0.0</version>
+          <scope>provided</scope>
+      </dependency>
 
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.11.0</version>
-            <scope>test</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -67,18 +56,17 @@
                     <target>11</target>
                 </configuration>
             </plugin>
-
-            <!-- Jetty Maven Plugin -->
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.15</version>
-                <configuration>
-                    <httpConnector>
-                        <port>8081</port>
-                    </httpConnector>
-                </configuration>
-            </plugin> 
+    <!-- Jetty Maven Plugin -->
+    <plugin>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-maven-plugin</artifactId>
+      <version>11.0.15</version>
+      <configuration>
+        <httpConnector>
+          <port>8081</port>
+        </httpConnector>
+      </configuration>
+    </plugin> 
 
             <!-- WAR Plugin -->
             <plugin>
