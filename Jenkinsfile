@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                       mmvn clean verify sonar:sonar \
+                       mvn clean verify sonar:sonar \
                       -Dsonar.projectKey=com.studentapp:NumberGuessGame \
                       -Dsonar.projectName='Number Guessing Game' \
                       -Dsonar.host.url=http://44.201.108.171:9000 \
