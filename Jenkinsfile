@@ -1,6 +1,15 @@
 pipeline {
     agent any
 
+        stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/fahimnzeyimana/NumberGuessGame.git', branch: 'main', credentialsId: 'sqp_b860c1c795ac5fd5e6e589e6f379751f29e91ef6'
+                
+            }
+        }
+
+
         stage('Build & Test') {
             steps {
                 // Build the project and run any unit tests
