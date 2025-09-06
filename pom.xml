@@ -58,17 +58,16 @@
             </plugin>
     <!-- Jetty Maven Plugin -->
     <plugin>
-  <groupId>org.eclipse.jetty</groupId>
-  <artifactId>jetty-maven-plugin</artifactId>
-  <version>11.0.15</version>
+  <groupId>org.eclipse.jetty.ee11</groupId>
+  <artifactId>jetty-ee11-maven-plugin</artifactId>
+  <version>12.1.1</version> <!-- use latest stable -->
   <configuration>
     <httpConnector>
       <port>8081</port>
-      <host>0.0.0.0</host>
+      <host>0.0.0.0</host> <!-- bind to all interfaces -->
     </httpConnector>
   </configuration>
 </plugin>
-
 
             <!-- WAR Plugin -->
             <plugin>
