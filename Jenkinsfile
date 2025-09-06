@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/fahimnzeyimana/NumberGuessGame.git', branch: 'main', credentialsId: 'Sona'
+                git url: 'https://github.com/fahimnzeyimana/NumberGuessGame.git'
                 
             }
         }
