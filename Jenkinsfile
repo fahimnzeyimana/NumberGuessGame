@@ -16,7 +16,13 @@ pipeline {
             }
         }
 
-        
+        stage('Code Quality - SonarQube') {
+            steps {
+                withSonarQubeEnv('MySonarQube') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
 
         stage('Run with Jetty') {
             steps {
