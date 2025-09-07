@@ -46,18 +46,9 @@ pipeline {
             echo 'Pipeline completed successfully ✅'
         }
         failure {
-            mail to: 'fahim.nzeymana@murugo.onmicrosoft.com',
+            mail to: 'fahim.nzeyimana@murugo.onmicrosoft.com',
                  subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                  body: "The build failed. Please check logs here: ${env.BUILD_URL}"
-            echo 'Pipeline failed ❌'
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully ✅'
-        }
-        failure {
             echo 'Pipeline failed ❌'
         }
     }
