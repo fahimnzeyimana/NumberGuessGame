@@ -19,10 +19,10 @@ pipeline {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                     sh '''
                        mvn clean verify sonar:sonar \
-                      -Dsonar.projectKey=com.studentapp:NumberGuessGame \
-                      -Dsonar.projectName='Number Guessing Game' \
+                      -Dsonar.projectKey=NumberGuessGameUpdated \
+                      -Dsonar.projectName='NumberGuessGameUpdated' \
                       -Dsonar.host.url=http://44.201.108.171:9000 \
-                      -Dsonar.token=sqp_d2780b5c7803d68e7fb3e3aa9ae77d80225bfd6d
+                      -Dsonar.token=sqp_bc5ce9f8b143b452307d339c14053b5e8885aca2
                     '''
                 }
             }
