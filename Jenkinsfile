@@ -18,7 +18,7 @@ pipeline {
         stage('Deploy to Nexus') {
     steps {
         withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
-            sh "mvn clean deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://${NEXUS_USER}:${NEXUS_PASS}@34.207.122.57:8081/repository/NumberGuessGame/"
+    sh('mvn clean deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://$NEXUS_USER:$NEXUS_PASS@34.207.122.57:8081/repository/NumberGuessGame/')
         }
     }
 }
