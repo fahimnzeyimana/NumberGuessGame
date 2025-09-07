@@ -16,7 +16,7 @@ pipeline {
 
         stage('Code Quality - SonarQube') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
                     sh '''
                        mvn clean verify sonar:sonar \
                       -Dsonar.projectKey=NumberGuessGameUpdated \
