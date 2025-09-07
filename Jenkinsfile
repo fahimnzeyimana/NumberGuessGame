@@ -10,7 +10,8 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'mvn clean install'
+                configFileProvider([configFile(fileId: 'custom-maven-settings', variable: 'MAVEN_SETTINGS_XML')]) {
+                    sh 'mvn clean install -s $MAVEN_SETTINGS_XML'
                 junit '**/target/surefire-reports/*.xml'   // Add this to publish JUnit test results
             }
         }
