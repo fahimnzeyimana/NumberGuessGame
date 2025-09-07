@@ -11,12 +11,6 @@ pipeline {
         stage('Build & Test') {
             steps {
                 sh 'mvn clean install'
-            }
-        }
-
-        stage('Build & Test') {
-            steps {
-                sh 'mvn clean install'
                 junit '**/target/surefire-reports/*.xml'   // Add this to publish JUnit test results
             }
         }
