@@ -15,20 +15,13 @@ pipeline {
             }
         }
 
-        stage('Upload to Nexus') {
-            steps {
-                nexusArtifactUploader artifacts: [[
-                    artifactId: 'NumberGuessGame', classifier: '', 
-                    file: 'target/NumberGuessGame-1.0-SNAPSHOT.war', type: 'war']], 
-                    credentialsId: 'nexus', 
-                    groupId: 'com.studentapp', 
-                    nexusUrl: '34.207.122.57:8081', 
-                    nexusVersion: 'nexus2', 
-                    protocol: 'http', 
-                    repository: 'NumberGuessGame', 
-                    version: '1.0-SNAPSHOT'
-            }
+        stage('Deploy to Nexus') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+            sh "mvn clean deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://${NEXUS_USER}:${NEXUS_PASS}@34.207.122.57:8081/repository/NumberGuessGame/"
         }
+    }
+}
         stage('Code Quality - SonarQube') {
             steps {
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
