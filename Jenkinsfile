@@ -17,25 +17,8 @@ pipeline {
 
         stage('Upload to Nexus') {
     steps {
-        nexusArtifactUploader(
-            nexusVersion: 'nexus3',
-            protocol: 'http',
-            nexusUrl: '34.207.122.57:8081',
-            groupId: 'com.studentapp',
-            version: '1.0-SNAPSHOT',
-            repository: 'NumberGuessGame-snapshots',
-            credentialsId: 'nexus',
-            artifacts: [
-                [
-                    artifactId: 'NumberGuessGame',
-                    classifier: '',
-                    file: 'target/NumberGuessGame-1.0-SNAPSHOT.war',
-                    type: 'war'
-                ]
-            ]
-        )
+        nexusArtifactUploader artifacts: [[artifactId: 'NumberGuessGame', classifier: '', file: 'target/NumberGuessGame-1.0-SNAPSHOT.war', type: '.war']], credentialsId: 'nexus', groupId: 'com.studentapp', nexusUrl: '34.207.122.57:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'NumberGuessGame', version: '1.0-SNAPSHOT'
     }
-}
         stage('Code Quality - SonarQube') {
             steps {
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
