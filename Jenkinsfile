@@ -46,6 +46,18 @@ pipeline {
     }
   }
 
+  stage('artifact') {
+      steps {
+        sh 'mvn package'
+      }
+    }
+  
+    stage('artifact upload') {
+      steps {
+        nexusArtifactUploader artifacts: [[artifactId: 'NumberGuessGame', classifier: '', file: 'target/NumberGuessGame-1.0-SNAPSHOT.war', type: '.war']], credentialsId: 'nexus', groupId: 'com.studentapp', nexusUrl: '4.207.122.57:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'NumberGuessGame', version: '1.0-SNAPSHOT'
+      }
+    }
+
   post {
     success {
       echo 'Pipeline completed successfully ✅'
