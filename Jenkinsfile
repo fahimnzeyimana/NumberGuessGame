@@ -15,31 +15,27 @@ pipeline {
             }
         }
 
-        stage('Upload Artifact to Nexus') {
+        stage('Upload to Nexus') {
     steps {
-        script {
-            def pom = readMavenPom file: 'pom.xml'
-            nexusArtifactUploader(
-                nexusVersion: 'nexus3',
-                protocol: 'http',
-                nexusUrl: '34.207.122.57:8081',
-                groupId: pom.groupId,
-                version: pom.version,
-                repository: 'NumberGuessGame-snapshots',  // change to your snapshot repo name
-                credentialsId: 'nexus',
-                artifacts: [
-                    [
-                        artifactId: pom.artifactId,
-                        classifier: '',
-                        file: "target/${pom.artifactId}-${pom.version}.war",
-                        type: 'war'
-                    ]
+        nexusArtifactUploader(
+            nexusVersion: 'nexus3',
+            protocol: 'http',
+            nexusUrl: '34.207.122.57:8081',
+            groupId: 'com.studentapp',
+            version: '1.0-SNAPSHOT',
+            repository: 'NumberGuessGame-snapshots',
+            credentialsId: 'nexus',
+            artifacts: [
+                [
+                    artifactId: 'NumberGuessGame',
+                    classifier: '',
+                    file: 'target/NumberGuessGame-1.0-SNAPSHOT.war',
+                    type: 'war'
                 ]
-            )
-        }
+            ]
+        )
     }
 }
-
         stage('Code Quality - SonarQube') {
             steps {
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
