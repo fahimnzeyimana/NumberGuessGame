@@ -14,6 +14,13 @@ pipeline {
             }
         }
 
+        stage('Build & Test') {
+            steps {
+                sh 'mvn clean install'
+                junit '**/target/surefire-reports/*.xml'   // Add this to publish JUnit test results
+            }
+        }
+
         stage('Code Quality - SonarQube') {
             steps {
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
