@@ -26,6 +26,7 @@ pipeline {
                       -Dsonar.token=sqp_77e4a984e186fb3d8c753dbe6faf7eeee8292ebd                    '''
                 }
             }
+        }
     } // This is the missing '}' to close the stages block
 
     post {
