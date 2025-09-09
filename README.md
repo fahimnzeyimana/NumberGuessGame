@@ -45,5 +45,7 @@ Continuous Deployment: On successful build, the WAR file is deployed to Tomcat w
 Pipeline Configuration: Defined in Jenkinsfile with Maven build steps and deployment commands
 ## Authors
 
+hougo
+
 Team of three contributors: Esther Monday
 
