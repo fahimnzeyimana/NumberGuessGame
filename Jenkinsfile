@@ -11,31 +11,41 @@ pipeline {
         stage('Build & Test') {
             steps {
                 sh 'mvn clean install'
-                junit '**/target/surefire-reports/*.xml'    // Add this to publish JUnit test result
+                junit '**/target/surefire-reports/*.xml'
             }
         }
 
         stage('Code Quality - SonarQube') {
             steps {
+                // Use the injected token variable from withCredentials instead of hardcoding
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                        mvn clean verify sonar:sonar \
-                      -Dsonar.projectKey=NumberGuessGame \
-                      -Dsonar.projectName='NumberGuessGame' \
-                      -Dsonar.host.url=http://34.205.127.228:9000 \
-                      -Dsonar.token=sqp_77e4a984e186fb3d8c753dbe6faf7eeee8292ebd                    '''
+                        mvn sonar:sonar \
+                         -Dsonar.projectKey=NumberGuessGame \
+                         -Dsonar.projectName='NumberGuessGame' \
+                         -Dsonar.host.url=http://34.205.127.228:9000 \
+                         -Dsonar.login=${SONAR_TOKEN}
+                    '''
                 }
             }
         }
-    } // This is the missing '}' to close the stages block
 
-    stage('Nexus Upload') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USER')]) {
-            sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://18.233.169.83:8081//repository/maven-releases/ -Dmaven.username=${NEXUS_USER} -Dmaven.password=${NEXUS_PASSWORD}'
+        stage('Nexus Upload') {
+            steps {
+                // Use the injected credentials from withCredentials
+                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USER')]) {
+                    // Corrected the double slash in the URL
+                    sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://18.233.169.83:8081/repository/maven-releases/ -Dmaven.username=${NEXUS_USER} -Dmaven.password=${NEXUS_PASSWORD}'
+                }
+            }
+        }
+
+        stage('Tomcat Deploy') {
+            steps {
+                sh 'mvn tomcat7:redeploy'
+            }
         }
     }
-}
 
     post {
         success {
