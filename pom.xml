@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -36,14 +35,29 @@
            <scope>test</scope>
        </dependency>
        <dependency>
-         <groupId>jakarta.servlet</groupId>
-         <artifactId>jakarta.servlet-api</artifactId>
-         <version>5.0.0</version>
+          <groupId>jakarta.servlet</groupId>
+          <artifactId>jakarta.servlet-api</artifactId>
+          <version>5.0.0</version>
           <scope>provided</scope>
       </dependency>
-
-
     </dependencies>
+
+    <!--
+        Add the distributionManagement section to define Nexus repository URLs for deployment.
+        The <id> must match the ID in your Jenkins credentials.
+    -->
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Releases</name>
+            <url>http://your-nexus-ip:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Nexus Snapshots</name>
+            <url>http://your-nexus-ip:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -67,13 +81,29 @@
           <port>8081</port>
         </httpConnector>
       </configuration>
-    </plugin> 
+    </plugin>
 
             <!-- WAR Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.2</version>
+            </plugin>
+            
+            <!--
+              Add the Tomcat Maven Plugin for deployment.
+              The <server> ID must match the ID in your Jenkins settings.xml.
+              The <url> should point to the Tomcat Manager application.
+            -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://your-tomcat-ip:8080/manager/text</url>
+                    <server>tomcat-server</server>
+                    <path>/NumberGuessGame</path>
+                </configuration>
             </plugin>
         </plugins>
     </build>
