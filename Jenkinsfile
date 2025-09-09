@@ -20,14 +20,12 @@ pipeline {
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
                     sh '''
                         mvn clean verify sonar:sonar \
-                     -Dsonar.projectKey=NumberGuessGameUpdated \
-                     -Dsonar.projectName='NumberGuessGameUpdated' \
-                     -Dsonar.host.url=http://44.201.108.171:9000 \
-                     -Dsonar.token=sqp_bc5ce9f8b143b452307d339c14053b5e8885aca2
-                    '''
+                      -Dsonar.projectKey=NumberGuessGame \
+                      -Dsonar.projectName='NumberGuessGame' \
+                      -Dsonar.host.url=http://34.205.127.228:9000 \
+                      -Dsonar.token=sqp_77e4a984e186fb3d8c753dbe6faf7eeee8292ebd                    '''
                 }
             }
-        }
     } // This is the missing '}' to close the stages block
 
     post {
