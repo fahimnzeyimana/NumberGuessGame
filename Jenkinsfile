@@ -30,15 +30,6 @@ pipeline {
             }
         }
 
-        stage('Run with Jetty') {
-            steps {
-                sh 'mvn jetty:run &'
-                sh 'sleep 10'
-                echo 'Application deployed on Jetty!'
-            }
-        }
-    }
-
     post {
         success {
             mail to: 'fahimnzeimana@gmail.com',
