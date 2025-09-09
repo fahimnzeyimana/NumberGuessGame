@@ -9,26 +9,26 @@ pipeline {
         }
 
         stage('Build & Test') {
-    steps {
-        sh 'mvn clean install'
-        junit '**/target/surefire-reports/*.xml'   // Add this to publish JUnit test result
-    }
-}
+            steps {
+                sh 'mvn clean install'
+                junit '**/target/surefire-reports/*.xml'    // Add this to publish JUnit test result
+            }
+        }
 
-    
         stage('Code Quality - SonarQube') {
             steps {
                 withCredentials([string(credentialsId: 'sona', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                       mvn clean verify sonar:sonar \
-                      -Dsonar.projectKey=NumberGuessGameUpdated \
-                      -Dsonar.projectName='NumberGuessGameUpdated' \
-                      -Dsonar.host.url=http://44.201.108.171:9000 \
-                      -Dsonar.token=sqp_bc5ce9f8b143b452307d339c14053b5e8885aca2
+                        mvn clean verify sonar:sonar \
+                     -Dsonar.projectKey=NumberGuessGameUpdated \
+                     -Dsonar.projectName='NumberGuessGameUpdated' \
+                     -Dsonar.host.url=http://44.201.108.171:9000 \
+                     -Dsonar.token=sqp_bc5ce9f8b143b452307d339c14053b5e8885aca2
                     '''
                 }
             }
         }
+    } // This is the missing '}' to close the stages block
 
     post {
         success {
