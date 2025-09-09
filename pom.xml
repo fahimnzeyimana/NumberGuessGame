@@ -50,12 +50,12 @@
         <repository>
             <id>nexus</id>
             <name>Nexus Releases</name>
-            <url>http://your-nexus-ip:8081/repository/maven-releases/</url>
+            <url>http://18.233.169.83:8081//repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>nexus</id>
             <name>Nexus Snapshots</name>
-            <url>http://your-nexus-ip:8081/repository/maven-snapshots/</url>
+            <url>http://18.233.169.83:8081//repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
