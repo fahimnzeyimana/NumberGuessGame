@@ -29,6 +29,14 @@ pipeline {
         }
     } // This is the missing '}' to close the stages block
 
+    stage('Nexus Upload') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USER')]) {
+            sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://18.233.169.83:8081//repository/maven-releases/ -Dmaven.username=${NEXUS_USER} -Dmaven.password=${NEXUS_PASSWORD}'
+        }
+    }
+}
+
     post {
         success {
             mail to: 'fahimnzeimana@gmail.com',
